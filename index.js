@@ -42,7 +42,11 @@ async function run() {
       res.send(result);
     })
 
-   
+    app.get('/teacher', async(req,res)=>{
+      const cursor = teacherCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
 
 
     // Send a ping to confirm a successful connection
