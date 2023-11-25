@@ -15,7 +15,7 @@ app.use(express.json())
 
 
 
-const uri = "mongodb+srv://fitesstracker:VshwRQKmLA9HfCVW@cluster0.5du28se.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.5du28se.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -30,6 +30,21 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+
+    const teacherCollection = client.db('fitnesstrackerDB').collection('teacher');
+
+
+    app.post('/teacher', async(req,res)=>{
+      const newteacher = req.body;
+      console.log(newteacher) ;
+      const result = await teacherCollection.insertOne(newteacher);
+      res.send(result);
+    })
+
+   
+
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
