@@ -33,12 +33,19 @@ async function run() {
 
 
     const teacherCollection = client.db('fitnesstrackerDB').collection('teacher');
-
+    const classCollection = client.db('fitnesstrackerDB').collection('classes');
 
     app.post('/teacher', async(req,res)=>{
       const newteacher = req.body;
       console.log(newteacher) ;
       const result = await teacherCollection.insertOne(newteacher);
+      res.send(result);
+    })
+
+    app.post('/classes', async(req,res)=>{
+      const newclass = req.body;
+      console.log(newclass) ;
+      const result = await classCollection.insertOne(newclass);
       res.send(result);
     })
 
